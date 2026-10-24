@@ -1,170 +1,72 @@
-
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#171b36">
-  <title>CourierIQ | AI Analytics</title>
-  <style>
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      background: #f3f4fa;
-      color: #171b36;
-      font-family: system-ui, Arial, sans-serif;
-    }
-    header {
-      background: #171b36;
-      color: white;
-      padding: 24px 20px;
-    }
-    header h1 { margin: 0; font-size: 26px; }
-    header p { color: #c8cbea; margin-bottom: 0; }
-    main {
-      max-width: 700px;
-      margin: auto;
-      padding: 20px;
-    }
-    .card {
-      background: white;
-      border-radius: 18px;
-      padding: 20px;
-      margin-bottom: 18px;
-      box-shadow: 0 3px 15px #171b3610;
-    }
-    .label { color: #666d85; font-size: 13px; }
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
-    }
-    .stat {
-      background: #f3f4fa;
-      padding: 15px;
-      border-radius: 12px;
-    }
-    .stat strong {
-      display: block;
-      font-size: 24px;
-      margin-top: 6px;
-    }
-    h2 { font-size: 19px; margin-top: 0; }
-    textarea {
-      width: 100%;
-      min-height: 85px;
-      padding: 14px;
-      border: 1px solid #ccd0df;
-      border-radius: 12px;
-      font: inherit;
-      resize: vertical;
-    }
-    button {
-      width: 100%;
-      background: #6555dc;
-      color: white;
-      border: 0;
-      padding: 15px;
-      border-radius: 12px;
-      font-size: 16px;
-      font-weight: 600;
-      margin-top: 12px;
-      cursor: pointer;
-    }
-    button:disabled { opacity: .6; }
-    #answer {
-      white-space: pre-wrap;
-      line-height: 1.6;
-      margin-top: 16px;
-    }
-    footer {
-      text-align: center;
-      color: #747990;
-      font-size: 12px;
-      padding: 20px;
-    }
-  </style>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CourierIQ | Delivery intelligence</title>
+<style>
+
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700;800;900&display=swap');
+:root{font-family:Raleway,Arial,sans-serif;color:#f5f2f0;background:#19191d}
+*{box-sizing:border-box}
+body{margin:0;background:#19191d}
+button,textarea{font:inherit}
+button{cursor:pointer}
+.shell{max-width:480px;margin:auto;padding:18px 16px 36px}
+.top{background:#a83242;color:white;border-bottom:4px solid #efb64a}
+.top .shell{padding-top:22px;padding-bottom:21px}
+.brand{font-size:26px;font-weight:900;font-style:italic;letter-spacing:-1px;text-transform:uppercase}
+.brand span{color:#fff}
+.brand .flash{color:#ffd35c;font-style:normal;margin:0 3px}
+.eyebrow{font-size:10px;text-transform:uppercase;letter-spacing:1.4px;color:#ffe3e2;font-weight:700;margin-top:12px}
+.top h1{font-size:22px;line-height:1.22;letter-spacing:-.6px;margin:8px 0}
+.top p{color:#fff0ef;line-height:1.45;font-size:12px;margin:0}
+.tag{display:inline-block;margin-top:12px;background:#ffffff19;border:1px solid #ffffff60;border-radius:30px;padding:6px 10px;font-size:10px;color:white}
+.section-title{font-size:17px;margin:22px 0 12px;letter-spacing:-.2px}
+.kpis{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.card{background:#29292f;border:1px solid #39383d;border-radius:16px;padding:15px;box-shadow:0 5px 20px #00000016}
+.kpis .card:nth-child(1){background:#38312b;border-color:#514436}
+.kpis .card:nth-child(2){background:#3c3036;border-color:#59404a}
+.metric-label{font-size:11px;color:#ded4d1;font-weight:650}
+.metric{font-size:26px;font-weight:850;letter-spacing:-1px;margin-top:10px;color:#f6d277}
+.hint{font-size:10px;color:#c9c1c0;margin-top:7px;line-height:1.35}
+.accent{color:#e7a7b1}.bad{color:#e9a1a9}.good{color:#f4d26e}
+.layout{display:flex;flex-direction:column;gap:12px}
+.layout section:nth-child(2){order:-1}
+.region{display:grid;grid-template-columns:92px 1fr 43px;gap:9px;align-items:center;margin:18px 0}
+.region-name{font-size:11px;font-weight:700}
+.track{height:10px;background:#47434a;border-radius:20px;overflow:hidden}
+.fill{height:100%;background:linear-gradient(90deg,#edc768,#d9a6b4);border-radius:20px}
+.fill.high{background:linear-gradient(90deg,#f0a2a9,#d65c72)}
+.pct{font-size:12px;text-align:right;font-weight:800}
+.sub{color:#c0b9bc;font-size:11px;line-height:1.5}
+.ai-header{display:flex;align-items:center;gap:10px}
+.sparkle{background:#56353f;color:#f5b5bd;border-radius:11px;padding:9px;font-size:18px}
+.ai-title{font-size:18px;font-weight:800;margin:0}
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin:13px 0}
+.chip{border:1px solid #70515b;background:#45323a;color:#ffe1e3;border-radius:22px;padding:9px 11px;font-size:10px;font-weight:700}
+textarea{width:100%;resize:vertical;min-height:75px;border:1px solid #61535b;border-radius:12px;padding:12px;background:#222227;color:white;outline:none;line-height:1.5;font-size:13px}
+textarea:focus{border-color:#f0a5ae;box-shadow:0 0 0 2px #b84c6133}
+.ask{background:#c04c5e;color:white;border:0;border-radius:12px;padding:13px;font-weight:800;margin-top:9px;width:100%;font-size:13px}
+.ask:disabled{opacity:.6;cursor:wait}
+.answer{background:#232328;border:1px solid #55404a;border-radius:12px;padding:14px;line-height:1.65;white-space:pre-wrap;overflow-wrap:anywhere;font-size:12px;margin-top:12px}
+.answer[hidden]{display:none}
+.footer{color:#9f969c;font-size:10px;text-align:center;margin-top:24px;line-height:1.6}
+
+</style>
 </head>
 <body>
-  <header>
-    <h1>✨ CourierIQ</h1>
-    <p>Your AI-powered delivery analytics assistant</p>
-  </header>
-
-  <main>
-    <section class="card">
-      <h2>Delivery overview</h2>
-      <div class="stats">
-        <div class="stat">
-          <span class="label">Total deliveries</span>
-          <strong>10,900</strong>
-        </div>
-        <div class="stat">
-          <span class="label">On-time rate</span>
-          <strong>94.3%</strong>
-        </div>
-      </div>
-      <p class="label">Demonstration data only</p>
-    </section>
-
-    <section class="card">
-      <h2>🤖 Ask CourierIQ</h2>
-      <p class="label">
-        Ask a question about delivery performance.
-      </p>
-
-      <textarea id="question"
-        placeholder="Which region has the highest late delivery rate?"
-        maxlength="500"></textarea>
-
-      <button id="askButton" onclick="askAI()">
-        Ask AI
-      </button>
-
-      <div id="answer" role="status" aria-live="polite"></div>
-    </section>
-  </main>
-
-  <footer>
-    CourierIQ | AI Analytics Prototype
-  </footer>
-
-  <script>
-    async function askAI() {
-      const question = document.getElementById("question").value.trim();
-      const answer = document.getElementById("answer");
-      const button = document.getElementById("askButton");
-
-      if (!question) {
-        answer.textContent = "Please enter a question first.";
-        return;
-      }
-
-      button.disabled = true;
-      button.textContent = "Thinking...";
-      answer.textContent = "Analysing delivery data...";
-
-      try {
-        const response = await fetch("/api/ask", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ question })
-        });
-
-        const data = await response.json();
-
-        if (!response.ok) {
-          throw new Error(data.error || "Request failed");
-        }
-
-        answer.textContent = data.answer || "No answer returned.";
-      } catch (error) {
-        answer.textContent = "Error: " + error.message;
-      } finally {
-        button.disabled = false;
-        button.textContent = "Ask AI";
-      }
-    }
-  </script>
-</body>
-</html>
+<header class="top"><div class="shell"><div class="brand">COURIER<span class="flash">⚡</span><span>IQ</span></div><div class="eyebrow">Operations intelligence · AI powered</div><h1>Smarter delivery insights.</h1><p>Delivery intelligence, spot risks and ask AI for operational insights.</p><div class="tag">✧ Interactive prototype · Fictional demonstration data</div></div></header>
+<main class="shell"><h2 class="section-title">Overview</h2><div class="kpis">
+<div class="card"><div class="metric-label">Total deliveries</div><div class="metric" id="total">—</div><div class="hint">Across four regions</div></div>
+<div class="card"><div class="metric-label">On-time delivery</div><div class="metric good" id="onTime">—</div><div class="hint">Share delivered on time</div></div>
+<div class="card"><div class="metric-label">Late deliveries</div><div class="metric bad" id="late">—</div><div class="hint">Deliveries needing attention</div></div>
+<div class="card"><div class="metric-label">Highest late rate</div><div class="metric accent" id="worst">—</div><div class="hint" id="worstName">—</div></div>
+</div><h2 class="section-title">Delivery intelligence</h2><div class="layout"><section class="card"><h3 style="margin:0">Late delivery rate by region</h3><p class="sub">Calculated from late deliveries ÷ total deliveries. Lower is better.</p><div id="regions"></div><p class="sub">Bars are scaled to the highest regional rate.</p></section><section class="card"><div class="ai-header"><div class="sparkle">✦</div><div><h3 class="ai-title">Ask CourierIQ</h3><div class="sub">AI-assisted operational analysis</div></div></div><div class="chips"><button class="chip" data-question="Which region has the highest late delivery rate?">⚠ Identify risks</button><button class="chip" data-question="Compare the four regions and suggest two operational priorities.">↗ Compare regions</button><button class="chip" data-question="Summarise delivery performance for an operations manager.">✦ Executive summary</button></div><label class="sub" for="question">Ask a question about the demonstration data</label><textarea id="question" placeholder="e.g. Which region needs attention and why?"></textarea><button class="ask" id="askButton">✦ Ask AI</button><div id="answer" class="answer" role="status" aria-live="polite" hidden></div></section></div><div class="footer">CourierIQ · AI analytics prototype · All delivery data is fictional and for demonstration only</div></main>
+<script>
+const deliveries=[{region:'Auckland',total:4200,late:210},{region:'Wellington',total:2800,late:196},{region:'Christchurch',total:2400,late:96},{region:'Hamilton',total:1500,late:120}];
+const fmt=n=>n.toLocaleString('en-NZ');const enriched=deliveries.map(d=>({...d,lateRate:d.late/d.total*100}));const total=deliveries.reduce((s,d)=>s+d.total,0);const late=deliveries.reduce((s,d)=>s+d.late,0);const worst=enriched.reduce((a,b)=>a.lateRate>b.lateRate?a:b);
+document.getElementById('total').textContent=fmt(total);document.getElementById('onTime').textContent=((total-late)/total*100).toFixed(1)+'%';document.getElementById('late').textContent=fmt(late);document.getElementById('worst').textContent=worst.lateRate.toFixed(1)+'%';document.getElementById('worstName').textContent=worst.region+' · highest regional rate';
+const container=document.getElementById('regions');enriched.sort((a,b)=>b.lateRate-a.lateRate).forEach(d=>{const row=document.createElement('div');row.className='region';const name=document.createElement('span');name.className='region-name';name.textContent=d.region;const track=document.createElement('div');track.className='track';const fill=document.createElement('div');fill.className='fill'+(d.region===worst.region?' high':'');fill.style.width=(d.lateRate/worst.lateRate*100)+'%';track.append(fill);const pct=document.createElement('span');pct.className='pct';pct.textContent=d.lateRate.toFixed(1)+'%';row.append(name,track,pct);container.append(row)});
+const question=document.getElementById('question');const answer=document.getElementById('answer');const button=document.getElementById('askButton');document.querySelectorAll('[data-question]').forEach(b=>b.addEventListener('click',()=>{question.value=b.dataset.question;question.focus()}));
+async function askAI(){const q=question.value.trim();answer.hidden=false;if(!q){answer.textContent='Please enter a question first.';return}button.disabled=true;button.textContent='Thinking…';answer.textContent='Analysing regional delivery performance…';try{const response=await fetch('/api/ask',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({question:q})});const data=await response.json();if(!response.ok)throw new Error(data.error||'Request failed');answer.textContent=(data.answer||'No answer returned.').replace(/\*\*/g,'').replace(/^\s*\*\s+/gm,'• ')}catch(e){answer.textContent='Unable to reach AI right now: '+e.message}finally{button.disabled=false;button.textContent='✦ Ask AI'}}button.addEventListener('click',askAI);
+</script></body></html>
