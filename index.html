@@ -1,106 +1,343 @@
+
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>CourierIQ | Delivery intelligence</title>
 <style>
-
 @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700;800;900&display=swap');
-:root{font-family:Raleway,Arial,sans-serif;color:#f5f2f0;background:#19191d}
-*{box-sizing:border-box}
-body{margin:0;background:#19191d}
-button,textarea{font:inherit}
-button{cursor:pointer}
-.shell{max-width:480px;margin:auto;padding:18px 16px 36px}
-.top{background:#a83242;color:white;border-bottom:4px solid #efb64a}
-.top .shell{padding-top:22px;padding-bottom:21px}
-.brand-row{display:flex;justify-content:space-between;align-items:center;gap:12px}
-.theme-toggle{flex-shrink:0;border:1px solid #ffffff80;background:#ffffff22;color:white;border-radius:30px;padding:9px 12px;font-size:11px;font-weight:800;min-height:38px}
-.theme-toggle:focus-visible,.chip:focus-visible,.ask:focus-visible{outline:3px solid #ffd35c;outline-offset:3px}
-.brand{font-size:26px;font-weight:900;font-style:italic;letter-spacing:-1px;text-transform:uppercase}
-.brand span{color:#fff}
-.brand .flash{color:#ffd35c;font-style:normal;margin:0 3px}
-.eyebrow{font-size:10px;text-transform:uppercase;letter-spacing:1.4px;color:#ffe3e2;font-weight:700;margin-top:12px}
-.top h1{font-size:22px;line-height:1.22;letter-spacing:-.6px;margin:8px 0}
-.top p{color:#fff0ef;line-height:1.45;font-size:12px;margin:0}
-.tag{display:inline-block;margin-top:12px;background:#ffffff19;border:1px solid #ffffff60;border-radius:30px;padding:6px 10px;font-size:10px;color:white}
-.section-title{font-size:17px;margin:22px 0 12px;letter-spacing:-.2px}
-.kpis{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-.card{background:#29292f;border:1px solid #39383d;border-radius:16px;padding:15px;box-shadow:0 5px 20px #00000016}
-.kpis .card:nth-child(1){background:#38312b;border-color:#514436}
-.kpis .card:nth-child(2){background:#3c3036;border-color:#59404a}
-.metric-label{font-size:11px;color:#ded4d1;font-weight:650}
-.metric{font-size:26px;font-weight:850;letter-spacing:-1px;margin-top:10px;color:#f6d277}
-.hint{font-size:10px;color:#c9c1c0;margin-top:7px;line-height:1.35}
-.accent{color:#e7a7b1}.bad{color:#e9a1a9}.good{color:#f4d26e}
-.layout{display:flex;flex-direction:column;gap:12px}
-.layout section:nth-child(2){order:-1}
-.region{display:grid;grid-template-columns:85px minmax(0,1fr) 44px;gap:9px;align-items:center;margin:18px 0}
-.region-name{font-size:11px;font-weight:700}
-.track{height:10px;background:#47434a;border-radius:20px;overflow:hidden}
-.fill{height:100%;background:linear-gradient(90deg,#edc768,#d9a6b4);border-radius:20px}
-.fill.high{background:linear-gradient(90deg,#f0a2a9,#d65c72)}
-.pct{font-size:12px;text-align:right;font-weight:800}
-.sub{color:#c0b9bc;font-size:11px;line-height:1.5}
-.ai-header{display:flex;align-items:center;gap:10px}
-.sparkle{background:#56353f;color:#f5b5bd;border-radius:11px;padding:9px;font-size:18px}
-.ai-title{font-size:18px;font-weight:800;margin:0}
-.chips{display:flex;flex-wrap:wrap;gap:7px;margin:13px 0}
-.chip{border:1px solid #70515b;background:#45323a;color:#ffe1e3;border-radius:22px;padding:9px 11px;font-size:10px;font-weight:700}
-textarea{width:100%;resize:vertical;min-height:75px;border:1px solid #61535b;border-radius:12px;padding:12px;background:#222227;color:white;outline:none;line-height:1.5;font-size:13px}
-textarea:focus{border-color:#f0a5ae;box-shadow:0 0 0 2px #b84c6133}
-.ask{background:#c04c5e;color:white;border:0;border-radius:12px;padding:13px;font-weight:800;margin-top:9px;width:100%;font-size:13px}
-.ask:disabled{opacity:.6;cursor:wait}
-.answer{background:#232328;border:1px solid #55404a;border-radius:12px;padding:14px;line-height:1.65;white-space:pre-wrap;overflow-wrap:anywhere;font-size:12px;margin-top:12px}
-.answer[hidden]{display:none}
-.footer{color:#9f969c;font-size:10px;text-align:center;margin-top:24px;line-height:1.6}
-:root[data-theme="light"]{color:#27242a;background:#faf6f2}
-[data-theme="light"] body{background:#faf6f2}
-[data-theme="light"] .card{background:#fff;border-color:#e9deda;box-shadow:0 4px 14px #542f3210}
-[data-theme="light"] .kpis .card:nth-child(1){background:#fff3d9;border-color:#f3e0b5}
-[data-theme="light"] .kpis .card:nth-child(2){background:#fbe8eb;border-color:#f3d3d9}
-[data-theme="light"] .metric-label{color:#54484b}
-[data-theme="light"] .metric{color:#8b4b32}
-[data-theme="light"] .good{color:#84611a}
-[data-theme="light"] .bad,[data-theme="light"] .accent{color:#b34357}
-[data-theme="light"] .hint,[data-theme="light"] .sub{color:#685e60}
-[data-theme="light"] .track{background:#f0e5e3}
-[data-theme="light"] .sparkle{background:#fbe3e8;color:#b34357}
-[data-theme="light"] .chip{background:#fff1f3;border-color:#ecc9d0;color:#873747}
-[data-theme="light"] textarea{background:#fff;color:#2a2328;border-color:#d8c5c9}
-[data-theme="light"] .answer{background:#fff8f9;border-color:#ebcfd5}
-[data-theme="light"] .footer{color:#756b6c}
-@media(max-width:350px){.shell{padding-left:12px;padding-right:12px}.card{padding:12px}.metric{font-size:23px}.region{grid-template-columns:77px minmax(0,1fr) 38px;gap:6px}.region-name{font-size:10px}}
 
+:root {
+  font-family: Raleway, Arial, sans-serif;
+  color: #f5f2f0;
+  background: #19191d;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: #19191d; }
+button, textarea { font: inherit; }
+button { cursor: pointer; }
+.shell { max-width: 480px; margin: auto; padding: 18px 16px 36px; }
+.top { background: #a83242; color: white; border-bottom: 4px solid #efb64a; }
+.top .shell { padding-top: 22px; padding-bottom: 21px; }
+.brand-row { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.brand { font-size: 26px; font-weight: 900; font-style: italic; letter-spacing: -1px; text-transform: uppercase; }
+.brand span { color: #fff; }
+.brand .flash { color: #ffd35c; font-style: normal; margin: 0 3px; }
+.theme-toggle {
+  flex-shrink: 0; border: 1px solid #ffffff80; background: #ffffff22;
+  color: white; border-radius: 30px; padding: 9px 12px;
+  font-size: 11px; font-weight: 800; min-height: 38px;
+}
+.theme-toggle:focus-visible, .chip:focus-visible, .ask:focus-visible {
+  outline: 3px solid #ffd35c; outline-offset: 3px;
+}
+.eyebrow { font-size: 10px; text-transform: uppercase; letter-spacing: 1.4px; color: #ffe3e2; font-weight: 700; margin-top: 12px; }
+.top h1 { font-size: 22px; line-height: 1.22; letter-spacing: -.6px; margin: 8px 0; }
+.top p { color: #fff0ef; line-height: 1.45; font-size: 12px; margin: 0; }
+.tag {
+  display: inline-block; margin-top: 12px; background: #ffffff19;
+  border: 1px solid #ffffff60; border-radius: 30px; padding: 6px 10px;
+  font-size: 10px; color: white;
+}
+.section-title { font-size: 17px; margin: 22px 0 12px; letter-spacing: -.2px; }
+.kpis { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 10px; }
+.card {
+  background: #29292f; border: 1px solid #39383d;
+  border-radius: 16px; padding: 15px; box-shadow: 0 5px 20px #00000016;
+}
+.kpis .card:nth-child(1) { background: #38312b; border-color: #514436; }
+.kpis .card:nth-child(2) { background: #3c3036; border-color: #59404a; }
+.metric-label { font-size: 11px; color: #ded4d1; font-weight: 650; }
+.metric { font-size: 26px; font-weight: 850; letter-spacing: -1px; margin-top: 10px; color: #f6d277; }
+.hint { font-size: 10px; color: #c9c1c0; margin-top: 7px; line-height: 1.35; }
+.accent { color: #e7a7b1; }
+.bad { color: #e9a1a9; }
+.good { color: #f4d26e; }
+.layout { display: flex; flex-direction: column; gap: 12px; }
+.layout section:nth-child(2) { order: -1; }
+.region {
+  display: grid; grid-template-columns: 85px minmax(0,1fr) 44px;
+  gap: 9px; align-items: center; margin: 18px 0;
+}
+.region-name { font-size: 11px; font-weight: 700; }
+.track { height: 10px; background: #47434a; border-radius: 20px; overflow: hidden; }
+.fill { height: 100%; background: linear-gradient(90deg,#edc768,#d9a6b4); border-radius: 20px; }
+.fill.high { background: linear-gradient(90deg,#f0a2a9,#d65c72); }
+.pct { font-size: 12px; text-align: right; font-weight: 800; }
+.sub { color: #c0b9bc; font-size: 11px; line-height: 1.5; }
+.ai-header { display: flex; align-items: center; gap: 10px; }
+.sparkle { background: #56353f; color: #f5b5bd; border-radius: 11px; padding: 9px; font-size: 18px; }
+.ai-title { font-size: 18px; font-weight: 800; margin: 0; }
+.chips { display: flex; flex-wrap: wrap; gap: 7px; margin: 13px 0; }
+.chip {
+  border: 1px solid #70515b; background: #45323a; color: #ffe1e3;
+  border-radius: 22px; padding: 9px 11px; font-size: 10px; font-weight: 700;
+}
+textarea {
+  width: 100%; resize: vertical; min-height: 75px;
+  border: 1px solid #61535b; border-radius: 12px; padding: 12px;
+  background: #222227; color: white; outline: none;
+  line-height: 1.5; font-size: 13px;
+}
+textarea:focus { border-color: #f0a5ae; box-shadow: 0 0 0 2px #b84c6133; }
+.ask {
+  background: #c04c5e; color: white; border: 0; border-radius: 12px;
+  padding: 13px; font-weight: 800; margin-top: 9px; width: 100%; font-size: 13px;
+}
+.ask:disabled { opacity: .6; cursor: wait; }
+.answer {
+  background: #232328; border: 1px solid #55404a; border-radius: 12px;
+  padding: 14px; line-height: 1.65; overflow-wrap: anywhere;
+  font-size: 12px; margin-top: 12px;
+}
+.answer[hidden] { display: none; }
+.answer p { margin: 0 0 12px; }
+.answer p:last-child { margin-bottom: 0; }
+.answer ul { margin: 8px 0 14px; padding-left: 20px; }
+.answer li { margin: 0 0 8px; padding-left: 3px; }
+.answer strong { color: #f4d26e; font-weight: 800; }
+.answer .recommendation {
+  background: #423039; border-left: 3px solid #e7a7b1;
+  border-radius: 6px; padding: 10px 12px; margin: 12px 0;
+}
+.footer { color: #9f969c; font-size: 10px; text-align: center; margin-top: 24px; line-height: 1.6; }
 
+:root[data-theme="light"] { color: #27242a; background: #faf6f2; }
+[data-theme="light"] body { background: #faf6f2; }
+[data-theme="light"] .card { background: #fff; border-color: #e9deda; box-shadow: 0 4px 14px #542f3210; }
+[data-theme="light"] .kpis .card:nth-child(1) { background: #fff3d9; border-color: #f3e0b5; }
+[data-theme="light"] .kpis .card:nth-child(2) { background: #fbe8eb; border-color: #f3d3d9; }
+[data-theme="light"] .metric-label { color: #54484b; }
+[data-theme="light"] .metric { color: #8b4b32; }
+[data-theme="light"] .good { color: #84611a; }
+[data-theme="light"] .bad, [data-theme="light"] .accent { color: #b34357; }
+[data-theme="light"] .hint, [data-theme="light"] .sub { color: #685e60; }
+[data-theme="light"] .track { background: #f0e5e3; }
+[data-theme="light"] .sparkle { background: #fbe3e8; color: #b34357; }
+[data-theme="light"] .chip { background: #fff1f3; border-color: #ecc9d0; color: #873747; }
+[data-theme="light"] textarea { background: #fff; color: #2a2328; border-color: #d8c5c9; }
+[data-theme="light"] .answer { background: #fff8f9; border-color: #ebcfd5; }
+[data-theme="light"] .answer strong { color: #943b4c; }
+[data-theme="light"] .answer .recommendation { background: #fce9ed; border-color: #c04c5e; }
+[data-theme="light"] .footer { color: #756b6c; }
+@media(max-width:350px) {
+  .shell { padding-left: 12px; padding-right: 12px; }
+  .card { padding: 12px; }
+  .metric { font-size: 23px; }
+  .region { grid-template-columns: 77px minmax(0,1fr) 38px; gap: 6px; }
+  .region-name { font-size: 10px; }
+}
 </style>
 </head>
 <body>
-<header class="top"><div class="shell"><div class="brand-row"><div class="brand">COURIER<span class="flash">⚡</span><span>IQ</span></div><button id="themeToggle" class="theme-toggle" type="button" aria-label="Switch to light mode" aria-pressed="false">☀ Light</button></div><div class="eyebrow">Operations intelligence · AI powered</div><h1>Smarter delivery insights.</h1><p>Delivery intelligence, spot risks and ask AI for operational insights.</p><div class="tag">✧ Interactive prototype · Fictional demonstration data</div></div></header>
-<main class="shell"><h2 class="section-title">Overview</h2><div class="kpis">
-<div class="card"><div class="metric-label">Total deliveries</div><div class="metric" id="total">—</div><div class="hint">Across four regions</div></div>
-<div class="card"><div class="metric-label">On-time delivery</div><div class="metric good" id="onTime">—</div><div class="hint">Share delivered on time</div></div>
-<div class="card"><div class="metric-label">Late deliveries</div><div class="metric bad" id="late">—</div><div class="hint">Deliveries needing attention</div></div>
-<div class="card"><div class="metric-label">Highest late rate</div><div class="metric accent" id="worst">—</div><div class="hint" id="worstName">—</div></div>
-</div><h2 class="section-title">Delivery intelligence</h2><div class="layout"><section class="card"><h3 style="margin:0">Late delivery rate by region</h3><p class="sub">Calculated from late deliveries ÷ total deliveries. Lower is better.</p><div id="regions"></div><p class="sub">Bars are scaled to the highest regional rate.</p></section><section class="card"><div class="ai-header"><div class="sparkle">✦</div><div><h3 class="ai-title">Ask CourierIQ</h3><div class="sub">AI-assisted operational analysis</div></div></div><div class="chips"><button class="chip" data-question="Which region has the highest late delivery rate?">⚠ Identify risks</button><button class="chip" data-question="Compare the four regions and suggest two operational priorities.">↗ Compare regions</button><button class="chip" data-question="Summarise delivery performance for an operations manager.">✦ Executive summary</button></div><label class="sub" for="question">Ask a question about the demonstration data</label><textarea id="question" placeholder="e.g. Which region needs attention and why?"></textarea><button class="ask" id="askButton">✦ Ask AI</button><div id="answer" class="answer" role="status" aria-live="polite" hidden></div></section></div><div class="footer">CourierIQ · AI analytics prototype · All delivery data is fictional and for demonstration only</div></main>
+<header class="top">
+  <div class="shell">
+    <div class="brand-row">
+      <div class="brand">COURIER<span class="flash">⚡</span><span>IQ</span></div>
+      <button id="themeToggle" class="theme-toggle" type="button" aria-label="Switch to light mode" aria-pressed="false">☀ Light</button>
+    </div>
+    <div class="eyebrow">Operations intelligence · AI powered</div>
+    <h1>Smarter delivery insights.</h1>
+    <p>Delivery intelligence, spot risks and ask AI for operational insights.</p>
+    <span class="tag">✧ Interactive prototype · Fictional demonstration data</span>
+  </div>
+</header>
+
+<main class="shell">
+  <h2 class="section-title">Overview</h2>
+  <div class="kpis" id="kpis"></div>
+
+  <h2 class="section-title">Delivery intelligence</h2>
+  <div class="layout">
+    <section class="card">
+      <h3 class="ai-title">Late delivery rate by region</h3>
+      <p class="sub">Calculated from late deliveries ÷ total deliveries. Lower is better.</p>
+      <div id="regions"></div>
+      <p class="sub">Bars are scaled to the highest regional rate.</p>
+    </section>
+
+    <section class="card">
+      <div class="ai-header">
+        <span class="sparkle">✦</span>
+        <div>
+          <h3 class="ai-title">Ask CourierIQ</h3>
+          <div class="sub">AI-assisted operational analysis</div>
+        </div>
+      </div>
+
+      <div class="chips">
+        <button class="chip" onclick="suggest('Identify the biggest delivery risks and explain why.')">⚠ Identify risks</button>
+        <button class="chip" onclick="suggest('Compare the four regions and suggest two operational priorities.')">↗ Compare regions</button>
+        <button class="chip" onclick="suggest('Summarise delivery performance for an operations manager.')">✦ Executive summary</button>
+      </div>
+
+      <label class="sub" for="question">Ask a question about the demonstration data</label>
+      <textarea id="question" placeholder="e.g. Which region needs attention and why?"></textarea>
+      <button class="ask" id="askButton" onclick="askAI()">✦ Ask AI</button>
+      <div class="answer" id="answer" role="status" aria-live="polite" hidden></div>
+    </section>
+  </div>
+
+  <p class="footer">CourierIQ · Independent AI analytics prototype<br>Fictional data only · Not affiliated with New Zealand Couriers</p>
+</main>
+
 <script>
-const themeToggle=document.getElementById('themeToggle');
-function setTheme(mode){
- document.documentElement.dataset.theme=mode;
- const light=mode==='light';
- themeToggle.textContent=light?'☾ Dark':'☀ Light';
- themeToggle.setAttribute('aria-label',light?'Switch to dark mode':'Switch to light mode');
- themeToggle.setAttribute('aria-pressed',String(light));
- try{localStorage.setItem('courieriq-theme',mode)}catch(e){}
+const themeToggle = document.getElementById('themeToggle');
+
+function setTheme(mode) {
+  document.documentElement.dataset.theme = mode;
+  const light = mode === 'light';
+  themeToggle.textContent = light ? '☾ Dark' : '☀ Light';
+  themeToggle.setAttribute('aria-label', light ? 'Switch to dark mode' : 'Switch to light mode');
+  themeToggle.setAttribute('aria-pressed', String(light));
+  try { localStorage.setItem('courieriq-theme', mode); } catch (e) {}
 }
-let savedTheme='dark';
-try{savedTheme=localStorage.getItem('courieriq-theme')||'dark'}catch(e){}
-setTheme(savedTheme==='light'?'light':'dark');
-themeToggle.addEventListener('click',()=>setTheme(document.documentElement.dataset.theme==='dark'?'light':'dark'));
-const deliveries=[{region:'Auckland',total:4200,late:210},{region:'Wellington',total:2800,late:196},{region:'Christchurch',total:2400,late:96},{region:'Hamilton',total:1500,late:120}];
-const fmt=n=>n.toLocaleString('en-NZ');const enriched=deliveries.map(d=>({...d,lateRate:d.late/d.total*100}));const total=deliveries.reduce((s,d)=>s+d.total,0);const late=deliveries.reduce((s,d)=>s+d.late,0);const worst=enriched.reduce((a,b)=>a.lateRate>b.lateRate?a:b);
-document.getElementById('total').textContent=fmt(total);document.getElementById('onTime').textContent=((total-late)/total*100).toFixed(1)+'%';document.getElementById('late').textContent=fmt(late);document.getElementById('worst').textContent=worst.lateRate.toFixed(1)+'%';document.getElementById('worstName').textContent=worst.region+' · highest regional rate';
-const container=document.getElementById('regions');enriched.sort((a,b)=>b.lateRate-a.lateRate).forEach(d=>{const row=document.createElement('div');row.className='region';const name=document.createElement('span');name.className='region-name';name.textContent=d.region;const track=document.createElement('div');track.className='track';const fill=document.createElement('div');fill.className='fill'+(d.region===worst.region?' high':'');fill.style.width=(d.lateRate/worst.lateRate*100)+'%';track.append(fill);const pct=document.createElement('span');pct.className='pct';pct.textContent=d.lateRate.toFixed(1)+'%';row.append(name,track,pct);container.append(row)});
-const question=document.getElementById('question');const answer=document.getElementById('answer');const button=document.getElementById('askButton');document.querySelectorAll('[data-question]').forEach(b=>b.addEventListener('click',()=>{question.value=b.dataset.question;question.focus()}));
-async function askAI(){const q=question.value.trim();answer.hidden=false;if(!q){answer.textContent='Please enter a question first.';return}button.disabled=true;button.textContent='Thinking…';answer.textContent='Analysing regional delivery performance…';try{const response=await fetch('/api/ask',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({question:q})});const data=await response.json();if(!response.ok)throw new Error(data.error||'Request failed');answer.textContent=(data.answer||'No answer returned.').replace(/\*\*/g,'').replace(/^\s*\*\s+/gm,'• ')}catch(e){answer.textContent='Unable to reach AI right now: '+e.message}finally{button.disabled=false;button.textContent='✦ Ask AI'}}button.addEventListener('click',askAI);
-</script></body></html>
+
+let savedTheme = 'dark';
+try { savedTheme = localStorage.getItem('courieriq-theme') || 'dark'; } catch (e) {}
+setTheme(savedTheme === 'light' ? 'light' : 'dark');
+themeToggle.addEventListener('click', () => setTheme(document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'));
+
+const deliveries = [
+  { region: 'Auckland', total: 4200, late: 210 },
+  { region: 'Wellington', total: 2800, late: 196 },
+  { region: 'Christchurch', total: 2400, late: 96 },
+  { region: 'Hamilton', total: 1500, late: 120 }
+];
+
+const total = deliveries.reduce((s, d) => s + d.total, 0);
+const late = deliveries.reduce((s, d) => s + d.late, 0);
+const overallOnTime = (100 * (total - late) / total).toFixed(1);
+const ranked = deliveries.map(d => ({
+  ...d,
+  rate: 100 * d.late / d.total
+})).sort((a, b) => b.rate - a.rate);
+
+document.getElementById('kpis').innerHTML = `
+  <div class="card">
+    <div class="metric-label">Total deliveries</div>
+    <div class="metric">${total.toLocaleString()}</div>
+    <div class="hint">Across four regions</div>
+  </div>
+  <div class="card">
+    <div class="metric-label">On-time delivery</div>
+    <div class="metric good">${overallOnTime}%</div>
+    <div class="hint">Share delivered on time</div>
+  </div>
+  <div class="card">
+    <div class="metric-label">Late deliveries</div>
+    <div class="metric bad">${late.toLocaleString()}</div>
+    <div class="hint">Deliveries needing attention</div>
+  </div>
+  <div class="card">
+    <div class="metric-label">Highest late rate</div>
+    <div class="metric bad">${ranked[0].rate.toFixed(1)}%</div>
+    <div class="hint">${ranked[0].region} · highest regional rate</div>
+  </div>
+`;
+
+document.getElementById('regions').innerHTML = ranked.map((d, i) => `
+  <div class="region">
+    <div class="region-name">${d.region}</div>
+    <div class="track">
+      <div class="fill ${i === 0 ? 'high' : ''}" style="width:${100 * d.rate / ranked[0].rate}%"></div>
+    </div>
+    <div class="pct">${d.rate.toFixed(1)}%</div>
+  </div>
+`).join('');
+
+function suggest(q) {
+  document.getElementById('question').value = q;
+  document.getElementById('question').focus();
+}
+
+function escapeHTML(text) {
+  return text.replace(/[&<>"']/g, char => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;',
+    '"': '&quot;', "'": '&#39;'
+  }[char]));
+}
+
+function formatAnswer(raw) {
+  const text = raw.trim();
+  if (!text) return '<p>No answer returned.</p>';
+
+  const lines = text.split(/\r?\n/);
+  let html = '';
+  let inList = false;
+
+  function inlineFormat(line) {
+    return escapeHTML(line)
+      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+      .replace(/__(.*?)__/g, '<strong>$1</strong>')
+      .replace(/`([^`]+)`/g, '$1');
+  }
+
+  for (const original of lines) {
+    const line = original.trim();
+
+    if (!line) {
+      if (inList) { html += '</ul>'; inList = false; }
+      continue;
+    }
+
+    const bullet = line.match(/^(?:[-*•]|\d+[.)])\s+(.+)$/);
+    if (bullet) {
+      if (!inList) { html += '<ul>'; inList = true; }
+      html += '<li>' + inlineFormat(bullet[1]) + '</li>';
+      continue;
+    }
+
+    if (inList) { html += '</ul>'; inList = false; }
+
+    const cleaned = line.replace(/^#{1,4}\s+/, '');
+    const formatted = inlineFormat(cleaned);
+    const recommendation = /^(suggestion|recommendation|priority|next step)/i.test(cleaned);
+
+    html += recommendation
+      ? '<p class="recommendation">' + formatted + '</p>'
+      : '<p>' + formatted + '</p>';
+  }
+
+  if (inList) html += '</ul>';
+  return html;
+}
+
+async function askAI() {
+  const question = document.getElementById('question').value.trim();
+  const answer = document.getElementById('answer');
+  const button = document.getElementById('askButton');
+
+  if (!question) {
+    answer.hidden = false;
+    answer.textContent = 'Please enter a question first.';
+    return;
+  }
+
+  button.disabled = true;
+  button.textContent = 'Thinking...';
+  answer.hidden = false;
+  answer.textContent = 'Analysing demonstration data...';
+
+  try {
+    const response = await fetch('/api/ask', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ question })
+    });
+
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.error || 'Request failed');
+
+    answer.innerHTML = formatAnswer(data.answer || 'No answer returned.');
+  } catch (error) {
+    answer.textContent = 'Error: ' + error.message;
+  } finally {
+    button.disabled = false;
+    button.textContent = '✦ Ask AI';
+  }
+}
+</script>
+</body>
+</html>
