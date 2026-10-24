@@ -26,7 +26,7 @@ export default async function handler(req, res) {
     { region: "Hamilton", total: 1500, late: 120 }
   ];
 
-  // Calculate reliable metrics using JavaScript
+  // Calculate verified figures using JavaScript
   const calculated = deliveries.map(d => ({
     region: d.region,
     totalDeliveries: d.total,
@@ -61,6 +61,45 @@ export default async function handler(req, res) {
     regions: calculated
   };
 
+  // List of verified numerical values
+  const knownNumbers = new Set([
+    0, 1, 2, 3, 4, 100,
+    total,
+    late,
+    total - late,
+    metrics.overallLateRatePercent,
+    metrics.overallOnTimeRatePercent,
+    ...calculated.flatMap(d => [
+      d.totalDeliveries,
+      d.lateDeliveries,
+      d.onTimeDeliveries,
+      d.lateRatePercent,
+      d.onTimeRatePercent
+    ])
+  ].map(n => Number(n).toFixed(2)));
+
+  // Detect numbers not present in the dataset
+  function hasUnverifiedNumber(answer) {
+    const tokens = answer.match(
+      /\b\d{1,3}(?:,\d{3})+(?:\.\d+)?\b|\b\d+(?:\.\d+)?\b/g
+    ) || [];
+
+    return tokens.some(token => {
+      const n = Number(token.replace(/,/g, ""));
+      return !knownNumbers.has(n.toFixed(2));
+    });
+  }
+
+  // Safe fallback if AI provides an unknown figure
+  const verifiedSnapshot =
+    "Verified demo figures: " +
+    calculated.map(d =>
+      `${d.region}: ` +
+      `${d.totalDeliveries.toLocaleString("en-NZ")} deliveries, ` +
+      `${d.lateDeliveries} late ` +
+      `(${d.lateRatePercent}% late)`
+    ).join("; ") + ".";
+
   try {
     const response = await fetch(
       "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash-lite:generateContent",
@@ -82,6 +121,7 @@ export default async function handler(req, res) {
                 "time trends, causes, comparisons with previous periods, delivery locations, or operational facts. " +
                 "When asked about trends, clarify that only a regional snapshot exists. " +
                 "When asked for recommendations, clearly label them as suggestions, not proven causes. " +
+                "Only mention numerical values appearing in the verified JSON; do not invent example numbers. " +
                 "Always start with the direct correct answer. " +
                 "Respond in plain text with short sentences and at most three bullets, " +
                 "no Markdown bold, headings or tables. " +
@@ -118,9 +158,27 @@ export default async function handler(req, res) {
       ?.map(part => part.text || "")
       .join("");
 
-    return res.status(200).json({
-      answer: answer || "I couldn't generate an answer."
-    });
+    if (!answer) {
+      return res.status(200).json({
+        answer: verifiedSnapshot
+      });
+    }
+
+    // Reject responses containing unknown numbers
+    if (hasUnverifiedNumber(answer)) {
+      console.warn(
+        "AI response contained an unverified numeric value."
+      );
+
+      return res.status(200).json({
+        answer:
+          "I couldn't verify all figures in the AI explanation, " +
+          "so here's the checked data instead.\n\n" +
+          verifiedSnapshot
+      });
+    }
+
+    return res.status(200).json({ answer });
 
   } catch (error) {
     console.error("CourierIQ error:", error);
