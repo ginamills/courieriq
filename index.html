@@ -1,0 +1,170 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#171b36">
+  <title>CourierIQ | AI Analytics</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: #f3f4fa;
+      color: #171b36;
+      font-family: system-ui, Arial, sans-serif;
+    }
+    header {
+      background: #171b36;
+      color: white;
+      padding: 24px 20px;
+    }
+    header h1 { margin: 0; font-size: 26px; }
+    header p { color: #c8cbea; margin-bottom: 0; }
+    main {
+      max-width: 700px;
+      margin: auto;
+      padding: 20px;
+    }
+    .card {
+      background: white;
+      border-radius: 18px;
+      padding: 20px;
+      margin-bottom: 18px;
+      box-shadow: 0 3px 15px #171b3610;
+    }
+    .label { color: #666d85; font-size: 13px; }
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+    .stat {
+      background: #f3f4fa;
+      padding: 15px;
+      border-radius: 12px;
+    }
+    .stat strong {
+      display: block;
+      font-size: 24px;
+      margin-top: 6px;
+    }
+    h2 { font-size: 19px; margin-top: 0; }
+    textarea {
+      width: 100%;
+      min-height: 85px;
+      padding: 14px;
+      border: 1px solid #ccd0df;
+      border-radius: 12px;
+      font: inherit;
+      resize: vertical;
+    }
+    button {
+      width: 100%;
+      background: #6555dc;
+      color: white;
+      border: 0;
+      padding: 15px;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      margin-top: 12px;
+      cursor: pointer;
+    }
+    button:disabled { opacity: .6; }
+    #answer {
+      white-space: pre-wrap;
+      line-height: 1.6;
+      margin-top: 16px;
+    }
+    footer {
+      text-align: center;
+      color: #747990;
+      font-size: 12px;
+      padding: 20px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>✨ CourierIQ</h1>
+    <p>Your AI-powered delivery analytics assistant</p>
+  </header>
+
+  <main>
+    <section class="card">
+      <h2>Delivery overview</h2>
+      <div class="stats">
+        <div class="stat">
+          <span class="label">Total deliveries</span>
+          <strong>10,900</strong>
+        </div>
+        <div class="stat">
+          <span class="label">On-time rate</span>
+          <strong>94.3%</strong>
+        </div>
+      </div>
+      <p class="label">Demonstration data only</p>
+    </section>
+
+    <section class="card">
+      <h2>🤖 Ask CourierIQ</h2>
+      <p class="label">
+        Ask a question about delivery performance.
+      </p>
+
+      <textarea id="question"
+        placeholder="Which region has the highest late delivery rate?"
+        maxlength="500"></textarea>
+
+      <button id="askButton" onclick="askAI()">
+        Ask AI
+      </button>
+
+      <div id="answer" role="status" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <footer>
+    CourierIQ | AI Analytics Prototype
+  </footer>
+
+  <script>
+    async function askAI() {
+      const question = document.getElementById("question").value.trim();
+      const answer = document.getElementById("answer");
+      const button = document.getElementById("askButton");
+
+      if (!question) {
+        answer.textContent = "Please enter a question first.";
+        return;
+      }
+
+      button.disabled = true;
+      button.textContent = "Thinking...";
+      answer.textContent = "Analysing delivery data...";
+
+      try {
+        const response = await fetch("/api/ask", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ question })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.error || "Request failed");
+        }
+
+        answer.textContent = data.answer || "No answer returned.";
+      } catch (error) {
+        answer.textContent = "Error: " + error.message;
+      } finally {
+        button.disabled = false;
+        button.textContent = "Ask AI";
+      }
+    }
+  </script>
+</body>
+</html>
