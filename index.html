@@ -14,6 +14,9 @@ button{cursor:pointer}
 .shell{max-width:480px;margin:auto;padding:18px 16px 36px}
 .top{background:#a83242;color:white;border-bottom:4px solid #efb64a}
 .top .shell{padding-top:22px;padding-bottom:21px}
+.brand-row{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.theme-toggle{flex-shrink:0;border:1px solid #ffffff80;background:#ffffff22;color:white;border-radius:30px;padding:9px 12px;font-size:11px;font-weight:800;min-height:38px}
+.theme-toggle:focus-visible,.chip:focus-visible,.ask:focus-visible{outline:3px solid #ffd35c;outline-offset:3px}
 .brand{font-size:26px;font-weight:900;font-style:italic;letter-spacing:-1px;text-transform:uppercase}
 .brand span{color:#fff}
 .brand .flash{color:#ffd35c;font-style:normal;margin:0 3px}
@@ -32,7 +35,7 @@ button{cursor:pointer}
 .accent{color:#e7a7b1}.bad{color:#e9a1a9}.good{color:#f4d26e}
 .layout{display:flex;flex-direction:column;gap:12px}
 .layout section:nth-child(2){order:-1}
-.region{display:grid;grid-template-columns:92px 1fr 43px;gap:9px;align-items:center;margin:18px 0}
+.region{display:grid;grid-template-columns:85px minmax(0,1fr) 44px;gap:9px;align-items:center;margin:18px 0}
 .region-name{font-size:11px;font-weight:700}
 .track{height:10px;background:#47434a;border-radius:20px;overflow:hidden}
 .fill{height:100%;background:linear-gradient(90deg,#edc768,#d9a6b4);border-radius:20px}
@@ -51,11 +54,29 @@ textarea:focus{border-color:#f0a5ae;box-shadow:0 0 0 2px #b84c6133}
 .answer{background:#232328;border:1px solid #55404a;border-radius:12px;padding:14px;line-height:1.65;white-space:pre-wrap;overflow-wrap:anywhere;font-size:12px;margin-top:12px}
 .answer[hidden]{display:none}
 .footer{color:#9f969c;font-size:10px;text-align:center;margin-top:24px;line-height:1.6}
+:root[data-theme="light"]{color:#27242a;background:#faf6f2}
+[data-theme="light"] body{background:#faf6f2}
+[data-theme="light"] .card{background:#fff;border-color:#e9deda;box-shadow:0 4px 14px #542f3210}
+[data-theme="light"] .kpis .card:nth-child(1){background:#fff3d9;border-color:#f3e0b5}
+[data-theme="light"] .kpis .card:nth-child(2){background:#fbe8eb;border-color:#f3d3d9}
+[data-theme="light"] .metric-label{color:#54484b}
+[data-theme="light"] .metric{color:#8b4b32}
+[data-theme="light"] .good{color:#84611a}
+[data-theme="light"] .bad,[data-theme="light"] .accent{color:#b34357}
+[data-theme="light"] .hint,[data-theme="light"] .sub{color:#685e60}
+[data-theme="light"] .track{background:#f0e5e3}
+[data-theme="light"] .sparkle{background:#fbe3e8;color:#b34357}
+[data-theme="light"] .chip{background:#fff1f3;border-color:#ecc9d0;color:#873747}
+[data-theme="light"] textarea{background:#fff;color:#2a2328;border-color:#d8c5c9}
+[data-theme="light"] .answer{background:#fff8f9;border-color:#ebcfd5}
+[data-theme="light"] .footer{color:#756b6c}
+@media(max-width:350px){.shell{padding-left:12px;padding-right:12px}.card{padding:12px}.metric{font-size:23px}.region{grid-template-columns:77px minmax(0,1fr) 38px;gap:6px}.region-name{font-size:10px}}
+
 
 </style>
 </head>
 <body>
-<header class="top"><div class="shell"><div class="brand">COURIER<span class="flash">⚡</span><span>IQ</span></div><div class="eyebrow">Operations intelligence · AI powered</div><h1>Smarter delivery insights.</h1><p>Delivery intelligence, spot risks and ask AI for operational insights.</p><div class="tag">✧ Interactive prototype · Fictional demonstration data</div></div></header>
+<header class="top"><div class="shell"><div class="brand-row"><div class="brand">COURIER<span class="flash">⚡</span><span>IQ</span></div><button id="themeToggle" class="theme-toggle" type="button" aria-label="Switch to light mode" aria-pressed="false">☀ Light</button></div><div class="eyebrow">Operations intelligence · AI powered</div><h1>Smarter delivery insights.</h1><p>Delivery intelligence, spot risks and ask AI for operational insights.</p><div class="tag">✧ Interactive prototype · Fictional demonstration data</div></div></header>
 <main class="shell"><h2 class="section-title">Overview</h2><div class="kpis">
 <div class="card"><div class="metric-label">Total deliveries</div><div class="metric" id="total">—</div><div class="hint">Across four regions</div></div>
 <div class="card"><div class="metric-label">On-time delivery</div><div class="metric good" id="onTime">—</div><div class="hint">Share delivered on time</div></div>
@@ -63,6 +84,19 @@ textarea:focus{border-color:#f0a5ae;box-shadow:0 0 0 2px #b84c6133}
 <div class="card"><div class="metric-label">Highest late rate</div><div class="metric accent" id="worst">—</div><div class="hint" id="worstName">—</div></div>
 </div><h2 class="section-title">Delivery intelligence</h2><div class="layout"><section class="card"><h3 style="margin:0">Late delivery rate by region</h3><p class="sub">Calculated from late deliveries ÷ total deliveries. Lower is better.</p><div id="regions"></div><p class="sub">Bars are scaled to the highest regional rate.</p></section><section class="card"><div class="ai-header"><div class="sparkle">✦</div><div><h3 class="ai-title">Ask CourierIQ</h3><div class="sub">AI-assisted operational analysis</div></div></div><div class="chips"><button class="chip" data-question="Which region has the highest late delivery rate?">⚠ Identify risks</button><button class="chip" data-question="Compare the four regions and suggest two operational priorities.">↗ Compare regions</button><button class="chip" data-question="Summarise delivery performance for an operations manager.">✦ Executive summary</button></div><label class="sub" for="question">Ask a question about the demonstration data</label><textarea id="question" placeholder="e.g. Which region needs attention and why?"></textarea><button class="ask" id="askButton">✦ Ask AI</button><div id="answer" class="answer" role="status" aria-live="polite" hidden></div></section></div><div class="footer">CourierIQ · AI analytics prototype · All delivery data is fictional and for demonstration only</div></main>
 <script>
+const themeToggle=document.getElementById('themeToggle');
+function setTheme(mode){
+ document.documentElement.dataset.theme=mode;
+ const light=mode==='light';
+ themeToggle.textContent=light?'☾ Dark':'☀ Light';
+ themeToggle.setAttribute('aria-label',light?'Switch to dark mode':'Switch to light mode');
+ themeToggle.setAttribute('aria-pressed',String(light));
+ try{localStorage.setItem('courieriq-theme',mode)}catch(e){}
+}
+let savedTheme='dark';
+try{savedTheme=localStorage.getItem('courieriq-theme')||'dark'}catch(e){}
+setTheme(savedTheme==='light'?'light':'dark');
+themeToggle.addEventListener('click',()=>setTheme(document.documentElement.dataset.theme==='dark'?'light':'dark'));
 const deliveries=[{region:'Auckland',total:4200,late:210},{region:'Wellington',total:2800,late:196},{region:'Christchurch',total:2400,late:96},{region:'Hamilton',total:1500,late:120}];
 const fmt=n=>n.toLocaleString('en-NZ');const enriched=deliveries.map(d=>({...d,lateRate:d.late/d.total*100}));const total=deliveries.reduce((s,d)=>s+d.total,0);const late=deliveries.reduce((s,d)=>s+d.late,0);const worst=enriched.reduce((a,b)=>a.lateRate>b.lateRate?a:b);
 document.getElementById('total').textContent=fmt(total);document.getElementById('onTime').textContent=((total-late)/total*100).toFixed(1)+'%';document.getElementById('late').textContent=fmt(late);document.getElementById('worst').textContent=worst.lateRate.toFixed(1)+'%';document.getElementById('worstName').textContent=worst.region+' · highest regional rate';
