@@ -5,6 +5,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>CourierIQ | Delivery intelligence</title>
+
+<link rel="icon" type="image/png" href="/courieriq.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/courieriq.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="CourierIQ">
+<meta name="theme-color" content="#a83242">
+
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700;800;900&display=swap');
 
@@ -20,10 +27,27 @@ button { cursor: pointer; }
 .shell { max-width: 480px; margin: auto; padding: 18px 16px 36px; }
 .top { background: #a83242; color: white; border-bottom: 4px solid #efb64a; }
 .top .shell { padding-top: 22px; padding-bottom: 21px; }
-.brand-row { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
-.brand { font-size: 26px; font-weight: 900; font-style: italic; letter-spacing: -1px; text-transform: uppercase; }
-.brand span { color: #fff; }
-.brand .flash { color: #ffd35c; font-style: normal; margin: 0 3px; }
+
+.brand-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand-logo {
+  display: block;
+  width: 100%;
+  max-width: 320px;
+  height: auto;
+  object-fit: contain;
+}
+
+.brand-row > .brand {
+  flex: 1;
+  min-width: 0;
+}
+
 .theme-toggle {
   flex-shrink: 0; border: 1px solid #ffffff80; background: #ffffff22;
   color: white; border-radius: 30px; padding: 9px 12px;
@@ -121,6 +145,7 @@ textarea:focus { border-color: #f0a5ae; box-shadow: 0 0 0 2px #b84c6133; }
 [data-theme="light"] .answer strong { color: #943b4c; }
 [data-theme="light"] .answer .recommendation { background: #fce9ed; border-color: #c04c5e; }
 [data-theme="light"] .footer { color: #756b6c; }
+
 @media(max-width:350px) {
   .shell { padding-left: 12px; padding-right: 12px; }
   .card { padding: 12px; }
@@ -131,10 +156,15 @@ textarea:focus { border-color: #f0a5ae; box-shadow: 0 0 0 2px #b84c6133; }
 </style>
 </head>
 <body>
+
 <header class="top">
   <div class="shell">
     <div class="brand-row">
-      <div class="brand">COURIER<span class="flash">⚡</span><span>IQ</span></div>
+      <div class="brand">
+        <img class="brand-logo"
+             src="/courieriq-logo.png"
+             alt="CourierIQ">
+      </div>
       <button id="themeToggle" class="theme-toggle" type="button" aria-label="Switch to light mode" aria-pressed="false">☀ Light</button>
     </div>
     <div class="eyebrow">Operations intelligence · AI powered</div>
